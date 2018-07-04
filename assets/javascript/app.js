@@ -12,7 +12,7 @@
   firebase.initializeApp(config);
  var dataRef=firebase.database();
 
- var schedule = [ ];
+//  var schedule = [ ];
  
  var name = "";
  var destination = "";
@@ -41,6 +41,8 @@
      destination: destination,
      strtime: strtime,
      frequency: frequency,
+     nextTrain : nextTrain,
+     till : till,
      dateAdded: firebase.database.ServerValue.TIMESTAMP,
  })
  })
@@ -56,7 +58,14 @@
       var tRemainder = diff % f;
       till = f - tRemainder;
       nextTrain = moment().add(till, "minutes");
+     nextTrain = nextTrain.toDate();
+   
+      console.log(nextTrain);
   });
+  dataRef.ref().push({
+    nextTrain : nextTrain,
+    till : till,
+})
 });
      $("#header").after("<tr><th scope='col' id=" + childSnapshot.key + '>' + childSnapshot.val().name +
       " <th scope='col'> " + childSnapshot.val().destination +
